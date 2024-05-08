@@ -3,6 +3,7 @@ package collection
 import (
 	"fmt"
 
+	"example.com/main/fileop"
 	"example.com/main/note"
 )
 
@@ -19,7 +20,7 @@ func New() *Collection {
 func (c *Collection) AddNote() {
 	newNote := note.AddNote()
 	c.notes = append(c.notes, *newNote)
-	fmt.Print("Note added to collection\n")
+	fmt.Printf("Note %s added to collection\n", newNote.Id)
 }
 
 func (c *Collection) PrintNotes() {
@@ -61,5 +62,18 @@ func (c *Collection) EditNote() {
 		fmt.Print("Note deleted from collection\n")
 	} else {
 		fmt.Print("Note not found\n")
+	}
+}
+
+// func (c *Collection) readNotesFromFile() {
+
+// }
+
+func (c *Collection) WriteNotesToFile() {
+	file := ""
+	fmt.Printf("Please enter a text file you want to write to: ")
+	fmt.Scan(&file)
+	for _, n := range c.notes {
+		fileop.WriteIntoFile(file, &n)
 	}
 }

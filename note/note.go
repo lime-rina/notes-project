@@ -33,7 +33,7 @@ func New(t, d string) (*Note, error) {
 
 func (n *Note) Print() {
 	fmt.Println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-	fmt.Printf("ID:%s\nTitle: %s\nDescription: %s\n", n.Id, n.title, n.description)
+	fmt.Printf("ID: %s\nTitle: %s\nDescription: %s\n", n.Id, n.title, n.description)
 }
 
 func InputNoteData(msg string) string {
@@ -49,8 +49,18 @@ func InputNoteData(msg string) string {
 }
 
 func (n *Note) EditNote() {
-	n.title = InputNoteData("Title: ")
-	n.description = InputNoteData("Description: ")
+
+	fmt.Print("What do you want to edit - the title or the description (t/d) ")
+	var answer string
+	fmt.Scan(&answer)
+	switch answer {
+	case "t":
+		n.title = InputNoteData("Title: ")
+	case "d":
+		n.description = InputNoteData("Description: ")
+	default:
+		fmt.Println("Unknown answer- you can only choose between title and description")
+	}
 }
 
 func (n *Note) DeleteNote() {
@@ -65,4 +75,8 @@ func AddNote() *Note {
 
 	newNote, _ := New(title, description)
 	return newNote
+}
+
+func (n *Note) ConvertNoteToJSON() string {
+	return fmt.Sprintf("{title: %s , description: %s, id: %s}\n", n.title, n.description, n.Id)
 }

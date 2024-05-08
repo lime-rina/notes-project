@@ -12,7 +12,9 @@ func displayMenu(userChoice *uint) {
 	fmt.Println("2. Edit a note (id)")
 	fmt.Println("3. Delete a note (id)")
 	fmt.Println("4. Print notes")
-	fmt.Println("5. Exit")
+	fmt.Println("5. Read notes from file (filename/path)")
+	fmt.Println("6. Write notes to file (filename/path)")
+	fmt.Println("7. Exit")
 	fmt.Print("-------------------------------\n")
 	fmt.Scan(userChoice)
 }
@@ -31,6 +33,10 @@ func Menu(collection *collection.Collection) {
 		case 4:
 			collection.PrintNotes()
 		case 5:
+			// collection.Rea()
+		case 6:
+			collection.WriteNotesToFile()
+		case 7:
 			fmt.Println("You chose to exit")
 			return
 		default:
