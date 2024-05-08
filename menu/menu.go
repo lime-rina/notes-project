@@ -33,7 +33,7 @@ func Menu(collection *collection.Collection) {
 		case 4:
 			collection.PrintNotes()
 		case 5:
-			// collection.Rea()
+			collection.ReadNotesFromFile()
 		case 6:
 			collection.WriteNotesToFile()
 		case 7:

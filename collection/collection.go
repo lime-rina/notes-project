@@ -1,6 +1,7 @@
 package collection
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"example.com/main/fileop"
@@ -59,20 +60,38 @@ func (c *Collection) EditNote() {
 	idx := c.isIndexValid()
 	if idx > -1 {
 		c.notes[idx].EditNote()
-		fmt.Print("Note deleted from collection\n")
+		fmt.Print("Note edited successfully\n")
 	} else {
 		fmt.Print("Note not found\n")
 	}
 }
 
-// func (c *Collection) readNotesFromFile() {
+func inputFileName(file *string, msg string) {
+	fmt.Print(msg)
+	fmt.Scan(file)
+}
 
-// }
+func (c *Collection) ReadNotesFromFile() {
+	file := ""
+	inputFileName(&file, "Please enter a text file you want to read from: ")
+	content, _ := fileop.ReadFromFile(file)
+	for _, line := range content {
+		var note note.Note
+		err := json.Unmarshal([]byte(line), &note)
+		if err != nil {
+			fmt.Println(err)
+			continue
+		}
+		c.notes = append(c.notes, note)
+	}
+	if len(c.notes) > 0 {
+		fmt.Println("Succesfully imported the notes!")
+	}
+}
 
 func (c *Collection) WriteNotesToFile() {
 	file := ""
-	fmt.Printf("Please enter a text file you want to write to: ")
-	fmt.Scan(&file)
+	inputFileName(&file, "Please enter a text file you want to write to: ")
 	for _, n := range c.notes {
 		fileop.WriteIntoFile(file, &n)
 	}

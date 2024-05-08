@@ -16,17 +16,22 @@ func openFile(filename string) *os.File {
 	}
 	return file
 }
-func GetFileContent(path string) string {
+func ReadFromFile(path string) ([]string, error) {
 	file := openFile(path)
-	if file != nil {
-		reader := bufio.NewReader(file)
+	defer file.Close()
 
-		text, _ := reader.ReadString('\n')
+	scanner := bufio.NewScanner(file)
 
-		file.Close()
-		return text
+	var lines []string
+	for scanner.Scan() {
+		lines = append(lines, scanner.Text())
 	}
-	return ""
+
+	if err := scanner.Err(); err != nil {
+		return nil, err
+	}
+
+	return lines, nil
 }
 
 func WriteIntoFile(path string, note *note.Note) {
